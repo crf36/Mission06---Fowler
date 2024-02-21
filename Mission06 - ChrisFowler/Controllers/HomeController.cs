@@ -25,6 +25,8 @@ namespace Mission06___ChrisFowler.Controllers
         [HttpGet]
         public IActionResult Movies()
         {
+            ViewBag.Category = _context.Movies
+                .OrderBy(x => x.Category).ToList();
             return View();
         }
 
@@ -40,10 +42,17 @@ namespace Mission06___ChrisFowler.Controllers
             {
                 response.Notes = "";
             }
-            
-            _context.Applications.Add(response); // Adds response into the database and saves changes
+
+            _context.Movies.Add(response); // Adds response into the database and saves changes
             _context.SaveChanges();
             return View("Index");
+        }
+
+        public IActionResult MovieDatabase()
+        {
+            var applications = _context.Movies.ToList();
+
+            return View(applications);
         }
     }
 }

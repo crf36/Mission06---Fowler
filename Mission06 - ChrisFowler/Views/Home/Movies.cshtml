@@ -8,8 +8,13 @@
 <h1>Movies</h1>
 
 <form method="post">
-    <label asp-for="Category">Category*</label>
-    <input asp-for="Category" />
+    <select asp-for="CategoryId">
+        <option value="">Select a Category</option>
+        @foreach (Categories c in ViewBag.Category)
+        {
+            <option value="@c.CategoryId">@c.Category</option>
+        }
+    </select>
     <br /><br />
 
     <label asp-for ="Title">Title*</label>
@@ -43,6 +48,13 @@
 
     <label asp-for="LentTo">Lent To</label>
     <input asp-for="LentTo" />
+    <br /><br />
+
+    <label asp-for="CopiedToPlex">Copied to Plex</label>
+    <select asp-for="CopiedToPlex">
+        <option value="false">No</option>
+        <option value="true">Yes</option>
+    </select>
     <br /><br />
 
     <label asp-for="Notes">Notes</label>
