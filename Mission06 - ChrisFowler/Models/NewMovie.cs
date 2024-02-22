@@ -19,19 +19,19 @@ namespace Mission06___ChrisFowler.Models
 
         [Required(ErrorMessage = "You must enter a year!")]
         [Range(1888, int.MaxValue, ErrorMessage = "The year must be 1888 or later!")]
-        public int Year { get; set; }
+        public int? Year { get; set; }
 
         public string? Director { get; set; }
 
         public string? Rating { get; set; }
 
         [Required(ErrorMessage = "You must enter whether a movie has been edited!")]
-        public bool Edited { get; set; }
+        public bool? Edited { get; set; }
 
         public string? LentTo { get; set; }
 
         [Required(ErrorMessage = "You must enter whether the movie has been copied to Plex!")]
-        public bool CopiedToPlex { get; set; }
+        public bool? CopiedToPlex { get; set; }
 
         [Range(0, 25)]
         public string? Notes { get; set; } // Max length of 25 both here and in the form
