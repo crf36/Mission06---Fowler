@@ -3,7 +3,7 @@
 *@
 @{
 }
-@model List<Application>
+@model List<NewMovie>
 
 <table class="table table-bordered">
     <thead class="fw-bold">
@@ -24,7 +24,13 @@
     {
         <tbody>
             <tr>
-                <td>@x.Category</td>
+                @foreach (Categories c in ViewBag.ViewCategory)
+                {
+                    if (c.CategoryId == x.CategoryId)
+                    {
+                        <td>@c.CategoryName</td>
+                    }
+                }
                 <td>@x.Title</td>
                 <td>@x.Year</td>
                 <td>@x.Director</td>
@@ -33,6 +39,9 @@
                 <td>@x.LentTo</td>
                 <td>@x.CopiedToPlex</td>
                 <td>@x.Notes</td>
+
+                <td><a class="btn btn-sm btn-info" asp-controller="Home" asp-action="Edit" asp-route-id="@x.MovieId">Edit</a></td>
+                <td><a class="btn btn-sm btn-danger">Delete</a></td>
             </tr>
         </tbody>
     }

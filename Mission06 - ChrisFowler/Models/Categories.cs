@@ -5,7 +5,7 @@ namespace Mission06___ChrisFowler.Models
     public class Categories
     {
         [Key]
-        public int CategoryId { get; set; }
-        public string Category { get; set; }
+        public int? CategoryId { get; set; }
+        public string? CategoryName { get; set; }
     }
 }

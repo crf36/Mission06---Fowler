@@ -23,36 +23,50 @@ namespace Mission06___ChrisFowler.Controllers
         }
 
         [HttpGet]
-        public IActionResult Movies()
+        public IActionResult AddMovie()
         {
-            ViewBag.Category = _context.Movies
-                .OrderBy(x => x.Category).ToList();
+            ViewBag.ViewCategory = _context.Category
+                .OrderBy(x => x.CategoryName).ToList();
             return View();
         }
 
         [HttpPost]
-        public IActionResult Movies(Application response)
+        public IActionResult AddMovie(NewMovie response)
         {
-            if (response.LentTo == null) // If LentTo was not entered in the form, sets the value to an empty string (can't do null)
+            if (ModelState.IsValid)
             {
-                response.LentTo = "";
+                _context.Movies.Add(response); // Adds response into the database and saves changes
+                _context.SaveChanges();
+                return View("Confirm", response);
             }
 
-            if (response.Notes == null) // If Notes was not entered in the form, sets the value to an empty string (can't do null)
+            else
             {
-                response.Notes = "";
+                ViewBag.ViewCategory = _context.Category.ToList();
+                ViewBag.Title = "Error";
+                return View(response);
             }
-
-            _context.Movies.Add(response); // Adds response into the database and saves changes
-            _context.SaveChanges();
-            return View("Index");
         }
 
-        public IActionResult MovieDatabase()
+        public IActionResult ViewMovies()
         {
-            var applications = _context.Movies.ToList();
+            ViewBag.ViewCategory = _context.Category
+                .OrderBy(x => x.CategoryName).ToList();
+            var movies = _context.Movies.ToList();
 
-            return View(applications);
+            return View(movies);
+        }
+
+        [HttpGet]
+        public IActionResult Edit(int id) 
+        {
+            var record = _context.Movies
+                .Single(x => x.MovieId == id);
+
+            ViewBag.ViewCategory = _context.Category
+                .OrderBy(x => x.CategoryName).ToList();
+
+            return View("AddMovie", record);
         }
     }
 }
