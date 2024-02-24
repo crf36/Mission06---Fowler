@@ -25,24 +25,24 @@ namespace Mission06___ChrisFowler.Controllers
         [HttpGet]
         public IActionResult MovieForm()
         {
-            ViewBag.ViewCategory = _context.Category
+            ViewBag.Categories = _context.Categories
                 .OrderBy(x => x.CategoryName).ToList();
-            return View();
+            return View(new Movie());
         }
 
         [HttpPost]
-        public IActionResult AddMovie(NewMovie response)
+        public IActionResult MovieForm(Movie response)
         {
             if (ModelState.IsValid)
             {
                 _context.Movies.Add(response); // Adds response into the database and saves changes
                 _context.SaveChanges();
-                return View("Confirm", response);
+                return View("Index");
             }
 
             else
             {
-                ViewBag.ViewCategory = _context.Category.ToList();
+                ViewBag.Categories = _context.Categories.ToList();
                 ViewBag.Title = "Error";
                 return View(response);
             }
@@ -50,7 +50,7 @@ namespace Mission06___ChrisFowler.Controllers
 
         public IActionResult ViewMovies()
         {
-            ViewBag.ViewCategory = _context.Category
+            ViewBag.Categories = _context.Categories
                 .OrderBy(x => x.CategoryName).ToList();
             var movies = _context.Movies.ToList();
 
@@ -61,29 +61,17 @@ namespace Mission06___ChrisFowler.Controllers
         public IActionResult EditMovie(int id)
         {
             var record = _context.Movies
-                .Single(x => x.MovieId == id);
+                .SingleOrDefault(x => x.MovieId == id);
 
-            ViewBag.ViewCategory = _context.Category
+            ViewBag.Categories = _context.Categories
                 .OrderBy(x => x.CategoryName)
                 .ToList();
 
             return View("MovieForm", record);
         }
 
-        //[HttpGet]
-        //public IActionResult Edit(int id) 
-        //{
-        //    var record = _context.Movies
-        //        .Single(x => x.MovieId == id);
-
-        //    ViewBag.ViewCategory = _context.Category
-        //        .OrderBy(x => x.CategoryName).ToList();
-
-        //    return View("AddMovie", record);
-        //}
-
         [HttpPost]
-        public IActionResult EditMovie(NewMovie record) 
+        public IActionResult EditMovie(Movie record) 
         {
             _context.Update(record);
             _context.SaveChanges();
@@ -91,13 +79,22 @@ namespace Mission06___ChrisFowler.Controllers
             return RedirectToAction("ViewMovies");
         }
 
-        //[HttpGet]
-        //public IActionResult DeleteMovie(int id) 
-        //{
-        //    var record = _context.Movies
-        //        .Single(x => x.MovieId == id);
+        [HttpGet]
+        public IActionResult DeleteMovie(int id)
+        {
+            var record = _context.Movies
+                .Single(x => x.MovieId == id);
 
-        //    return View(record);
-        //}
+            return View(record);
+        }
+
+        [HttpPost]
+        public IActionResult DeleteMovie(Movie record)
+        {
+            _context.Movies.Remove(record);
+            _context.SaveChanges();
+
+            return RedirectToAction("ViewMovies");
+        }
     }
 }

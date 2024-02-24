@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Mission06___ChrisFowler.Models
 {
-    public class NewMovie
+    public class Movie
     {
         [Key]
         [Required]
@@ -12,28 +12,28 @@ namespace Mission06___ChrisFowler.Models
 
         [ForeignKey("CategoryId")]
         public int? CategoryId { get; set; }
-        public Categories? Category { get; set; }
+        public Category? Category { get; set; }
 
-        [Required(ErrorMessage = "You must enter a title!")]
+        [Required (ErrorMessage = "Please enter a title")]
         public string Title { get; set; }
 
-        [Required(ErrorMessage = "You must enter a year!")]
-        [Range(1888, int.MaxValue, ErrorMessage = "The year must be 1888 or later!")]
+        [Required(ErrorMessage = "Please enter a year")]
+        [Range(1888, int.MaxValue, ErrorMessage = "Enter a year 1888 or greater")]
         public int? Year { get; set; }
 
         public string? Director { get; set; }
 
         public string? Rating { get; set; }
 
-        [Required(ErrorMessage = "You must enter whether a movie has been edited!")]
-        public bool? Edited { get; set; }
+        [Required (ErrorMessage = "Please enter if the movie was edited")]
+        public int Edited { get; set; }
 
         public string? LentTo { get; set; }
 
-        [Required(ErrorMessage = "You must enter whether the movie has been copied to Plex!")]
-        public bool? CopiedToPlex { get; set; }
+        [Required (ErrorMessage = "Please enter if the movie has been copied to Plex")]
+        public int CopiedToPlex { get; set; }
 
-        [Range(0, 25)]
+        [StringLength(25, ErrorMessage = "Please keep the length of the note under 25 characters")]
         public string? Notes { get; set; } // Max length of 25 both here and in the form
     }
 }
