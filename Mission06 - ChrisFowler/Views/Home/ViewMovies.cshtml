@@ -5,6 +5,7 @@
 }
 @model List<Movie>
 
+@*Bootstrap*@
 <style>
     body {
         background-color: #f1f1f1; /* Set background color */
@@ -72,12 +73,12 @@
                     <td>@x.Year</td>
                     <td>@x.Director</td>
                     <td>@x.Rating</td>
-                    <td>@(x.Edited == 1 ? "True" : "False")</td>
+                    <td>@(x.Edited == 1 ? "True" : "False")</td> @*Displays 1 and 0 as true or false in the table*@
                     <td>@x.LentTo</td>
                     <td>@(x.CopiedToPlex == 1 ? "True" : "False")</td>
                     <td>@x.Notes</td>
                     <td><a class="btn btn-sm btn-info" asp-controller="Home" asp-action="EditMovie" asp-route-id="@x.MovieId">Edit</a></td>
-                    <td><a class="btn btn-sm btn-danger" asp-controller="Home" asp-action="DeleteMovie" asp-route-id="@x.MovieId">Delete</a></td>
+                    <td><a class="btn btn-sm btn-danger" asp-controller="Home" asp-action="Delete" asp-route-id="@x.MovieId">Delete</a></td>
                 </tr>
             </tbody>
         }

@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Mission06___ChrisFowler.Models;
 using System.Diagnostics;
 
@@ -25,15 +26,16 @@ namespace Mission06___ChrisFowler.Controllers
         [HttpGet]
         public IActionResult MovieForm()
         {
-            ViewBag.Categories = _context.Categories
+            ViewBag.Categories = _context.Categories   //Creates bag of category names
                 .OrderBy(x => x.CategoryName).ToList();
+
             return View(new Movie());
         }
 
         [HttpPost]
         public IActionResult MovieForm(Movie response)
         {
-            if (ModelState.IsValid)
+            if (ModelState.IsValid) //If not valid, returns to MovieForm with their data so they can fix it
             {
                 _context.Movies.Add(response); // Adds response into the database and saves changes
                 _context.SaveChanges();
@@ -52,7 +54,9 @@ namespace Mission06___ChrisFowler.Controllers
         {
             ViewBag.Categories = _context.Categories
                 .OrderBy(x => x.CategoryName).ToList();
-            var movies = _context.Movies.ToList();
+
+            var movies = _context.Movies
+                .Include(x => x.Category).ToList();
 
             return View(movies);
         }
@@ -60,38 +64,41 @@ namespace Mission06___ChrisFowler.Controllers
         [HttpGet]
         public IActionResult EditMovie(int id)
         {
-            var record = _context.Movies
-                .SingleOrDefault(x => x.MovieId == id);
+            var recordEdit = _context.Movies
+                .SingleOrDefault(x => x.MovieId == id); //I got an error when I used .Single, but using .SingleOrDefault fixed it
 
             ViewBag.Categories = _context.Categories
                 .OrderBy(x => x.CategoryName)
                 .ToList();
 
-            return View("MovieForm", record);
+            return View("MovieForm", recordEdit);
         }
 
         [HttpPost]
-        public IActionResult EditMovie(Movie record) 
+        public IActionResult EditMovie(Movie updated) 
         {
-            _context.Update(record);
+            _context.Update(updated);
             _context.SaveChanges();
 
-            return RedirectToAction("ViewMovies");
+            return RedirectToAction("ViewMovies"); //Returns to movie list via the ViewMovies action
         }
 
         [HttpGet]
-        public IActionResult DeleteMovie(int id)
+        public IActionResult Delete(int id)
         {
-            var record = _context.Movies
-                .Single(x => x.MovieId == id);
+            var recordDelete = _context.Movies
+                .Single(x => x.MovieId == id); /*This is where I get the error. It runs through this loop twice for some reason. The first time it 
+                                               successfully store the record, but the second time it returns recordDelete as null. However if you
+                                               press continue on the error message, it will still navigate to the delete page and allow you to 
+                                               delete the record. Nate Buck TA and several classmates could not figure it out.*/
 
-            return View(record);
+            return View(recordDelete);
         }
 
         [HttpPost]
-        public IActionResult DeleteMovie(Movie record)
+        public IActionResult Delete(Movie deleteRecord)
         {
-            _context.Movies.Remove(record);
+            _context.Movies.Remove(deleteRecord);
             _context.SaveChanges();
 
             return RedirectToAction("ViewMovies");

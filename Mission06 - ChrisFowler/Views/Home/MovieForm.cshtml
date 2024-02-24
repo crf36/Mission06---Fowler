@@ -5,6 +5,7 @@
 
 @model Movie
 
+@*Bootstrap*@
 <style>
     body {
         background-color: #f1f1f1; /* Set background color */
@@ -66,12 +67,12 @@
     <h1>@ViewData["Title"]</h1>
 
     <form method="post">
-        <input type="hidden" asp-for="MovieId" />
+        <input type="hidden" asp-for="MovieId" /> @*ID needed to bring in a new or existing record*@
 
         <label asp-for="CategoryId">Category</label>
         <select asp-for="CategoryId">
             <option value="" selected disabled>Select a Category</option>
-            @foreach (Category c in ViewBag.Categories)
+            @foreach (Category c in ViewBag.Categories) // Pulls in the list of categories from the categories table
             {
                 <option value="@c.CategoryId">@c.CategoryName</option>
             }

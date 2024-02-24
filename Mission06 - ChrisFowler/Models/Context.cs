@@ -8,7 +8,7 @@ namespace Mission06___ChrisFowler.Models
         {
 
         }
-        public DbSet<Movie> Movies { get; set; }
-        public DbSet<Category> Categories { get; set; }
+        public DbSet<Movie> Movies { get; set; } //Links to Movies table
+        public DbSet<Category> Categories { get; set; } //Links to Categories table
     }
 }

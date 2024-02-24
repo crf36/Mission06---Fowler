@@ -1,5 +1,6 @@
 ﻿@model Movie
 
+@*Boostrap*@
 <style>
     body {
         background-color: #f1f1f1; /* Set background color */
@@ -43,7 +44,7 @@
     <p>Movie Title: @Model.Title</p>
 
     <form method="post">
-        <input type="hidden" asp-for="MovieId" />
+        <input type="hidden" asp-for="MovieId" /> @*Need MovieId to delete record*@
 
         <button type="submit" class="btn btn-sm btn-danger">Delete</button>
         <a class="btn btn-sm btn-info" asp-controller="Home" asp-action="ViewMovies">Cancel</a>

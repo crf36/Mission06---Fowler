@@ -8,18 +8,18 @@ namespace Mission06___ChrisFowler.Models
     {
         [Key]
         [Required]
-        public int MovieId { get; set; }
+        public int MovieId { get; set; } //Primary Key
 
         [ForeignKey("CategoryId")]
-        public int? CategoryId { get; set; }
+        public int? CategoryId { get; set; } //Optional Category
         public Category? Category { get; set; }
 
         [Required (ErrorMessage = "Please enter a title")]
         public string Title { get; set; }
 
         [Required(ErrorMessage = "Please enter a year")]
-        [Range(1888, int.MaxValue, ErrorMessage = "Enter a year 1888 or greater")]
-        public int? Year { get; set; }
+        [Range(1888, int.MaxValue, ErrorMessage = "Enter a year 1888 or greater")] //Limits year to 1888 or greater
+        public int? Year { get; set; } //The ? makes it so the default isn't a 0. It is still required tho and will give an error if not entered
 
         public string? Director { get; set; }
 
@@ -34,6 +34,6 @@ namespace Mission06___ChrisFowler.Models
         public int CopiedToPlex { get; set; }
 
         [StringLength(25, ErrorMessage = "Please keep the length of the note under 25 characters")]
-        public string? Notes { get; set; } // Max length of 25 both here and in the form
+        public string? Notes { get; set; } // Max length of 25 or error
     }
 }
